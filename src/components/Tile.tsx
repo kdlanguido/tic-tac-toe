@@ -31,20 +31,25 @@ export default function Tile({ tile }: { tile: { tileKey: string, tileVal: strin
             tileVal: playerTurn
         }))
 
-        const newSelectedTilesX = [...selectedTilesX, tile.tileKey];
-        newSelectedTilesX.sort();
+        if (playerTurn === 'X') {
+            const newSelectedTilesX = [...selectedTilesX, tile.tileKey];
+            newSelectedTilesX.sort();
 
-        const newSelectedTilesO = [...selectedTilesO, tile.tileKey];
-        newSelectedTilesO.sort();
-
-        for (const pattern of winPattern) {
-            if (pattern.every(tile => newSelectedTilesX.includes(tile))) {
-                dispatch(setIsGameOver(true))
-                return;
+            for (const pattern of winPattern) {
+                if (pattern.every(tile => newSelectedTilesX.includes(tile))) {
+                    dispatch(setIsGameOver(true))
+                    return;
+                }
             }
-            if (pattern.every(tile => newSelectedTilesO.includes(tile))) {
-                dispatch(setIsGameOver(true))
-                return;
+        } else {
+            const newSelectedTilesO = [...selectedTilesO, tile.tileKey];
+            newSelectedTilesO.sort();
+
+            for (const pattern of winPattern) {
+                if (pattern.every(tile => newSelectedTilesO.includes(tile))) {
+                    dispatch(setIsGameOver(true))
+                    return;
+                }
             }
         }
     }
