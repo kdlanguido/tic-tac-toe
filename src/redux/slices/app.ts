@@ -13,6 +13,8 @@ export interface AppState {
     playerTurn: string;
     isGameOver: boolean;
     gameWinner: string;
+    numOfTurns: number;
+    isGameDraw: boolean;
 }
 
 const initialState: AppState = {
@@ -31,7 +33,9 @@ const initialState: AppState = {
     selectedTilesO: [],
     playerTurn: 'X',
     isGameOver: false,
-    gameWinner: ''
+    gameWinner: '',
+    numOfTurns: 0,
+    isGameDraw: false
 }
 
 const appSlice = createSlice({
@@ -39,18 +43,26 @@ const appSlice = createSlice({
     initialState,
     reducers: {
         setTileVal: (state, action: PayloadAction<{ tileKey: string; tileVal: string }>) => {
-
             const { tileKey, tileVal } = action.payload;
             const tile = state.board.find(t => t.tileKey === tileKey);
 
-            if (tile && tile.tileVal === '') {
+            if (tile) {
                 tile.tileVal = tileVal;
+
                 if (state.playerTurn === 'X') {
                     state.selectedTilesX.push(tileKey);
+                    state.playerTurn = 'O'
                 } else {
                     state.selectedTilesO.push(tileKey);
+                    state.playerTurn = 'X'
                 }
-                state.playerTurn = state.playerTurn === 'X' ? 'O' : 'X';
+
+                state.numOfTurns++;
+
+                if (state.numOfTurns == 9) {
+                    state.isGameDraw = true;
+                    state.isGameOver = true;
+                }
             }
         },
         setIsGameOver: (state, action: PayloadAction<boolean>) => {
@@ -66,6 +78,8 @@ const appSlice = createSlice({
             state.playerTurn = initialState.playerTurn;
             state.gameWinner = initialState.gameWinner;
             state.isGameOver = initialState.isGameOver;
+            state.isGameDraw = initialState.isGameDraw;
+            state.numOfTurns = initialState.numOfTurns;
         }
     }
 })
