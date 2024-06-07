@@ -52,13 +52,26 @@ const appSlice = createSlice({
         },
         setIsGameOver: (state, action: PayloadAction<boolean>) => {
             state.isGameOver = action.payload
+        },
+        setGameWinner: (state, action: PayloadAction<string>) => {
+            state.gameWinner = action.payload
+        },
+        resetGame: (state) => {
+            state.board = initialState.board;
+            state.selectedTilesX = initialState.selectedTilesX;
+            state.selectedTilesO = initialState.selectedTilesO;
+            state.playerTurn = initialState.playerTurn;
+            state.gameWinner = initialState.gameWinner;
+            state.isGameOver = initialState.isGameOver;
         }
     }
 })
 
 export const {
     setTileVal,
-    setIsGameOver
+    setIsGameOver,
+    setGameWinner,
+    resetGame
 } = appSlice.actions;
 
 export default appSlice.reducer;

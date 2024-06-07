@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsGameOver, setTileVal } from '../redux/slices/app';
+import { setGameWinner, setIsGameOver, setTileVal } from '../redux/slices/app';
 import { AppDispatch, RootState } from "../redux/store";
 
 export default function Tile({ tile }: { tile: { tileKey: string, tileVal: string } }) {
@@ -38,6 +38,7 @@ export default function Tile({ tile }: { tile: { tileKey: string, tileVal: strin
             for (const pattern of winPattern) {
                 if (pattern.every(tile => newSelectedTilesX.includes(tile))) {
                     dispatch(setIsGameOver(true))
+                    dispatch(setGameWinner('X'))
                     return;
                 }
             }
@@ -48,6 +49,7 @@ export default function Tile({ tile }: { tile: { tileKey: string, tileVal: strin
             for (const pattern of winPattern) {
                 if (pattern.every(tile => newSelectedTilesO.includes(tile))) {
                     dispatch(setIsGameOver(true))
+                    dispatch(setGameWinner('O'))
                     return;
                 }
             }
