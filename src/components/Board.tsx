@@ -5,7 +5,6 @@ import { RootState } from "../redux/store";
 
 export default function Board() {
 
-
     const { board } = useSelector((state: RootState) => state.app)
 
     return (

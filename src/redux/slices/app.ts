@@ -9,8 +9,10 @@ type tile = {
 export interface AppState {
     board: tile[];
     selectedTilesX: string[];
-    selectedTilesY: string[];
+    selectedTilesO: string[];
     playerTurn: string;
+    isGameOver: boolean;
+    gameWinner: string;
 }
 
 const initialState: AppState = {
@@ -26,8 +28,10 @@ const initialState: AppState = {
         { tileKey: 'T9', tileVal: '' }
     ],
     selectedTilesX: [],
-    selectedTilesY: [],
-    playerTurn: 'X'
+    selectedTilesO: [],
+    playerTurn: 'X',
+    isGameOver: false,
+    gameWinner: ''
 }
 
 const appSlice = createSlice({
@@ -35,29 +39,26 @@ const appSlice = createSlice({
     initialState,
     reducers: {
         setTileVal: (state, action: PayloadAction<{ tileKey: string; tileVal: string }>) => {
+
             const { tileKey, tileVal } = action.payload;
             const tile = state.board.find(t => t.tileKey === tileKey);
+
             if (tile) {
                 tile.tileVal = tileVal;
             }
-        },
-        setSelectedTilesX: (state, action: PayloadAction<string[]>) => {
-            state.selectedTilesX = action.payload
-        },
-        setSelectedTilesY: (state, action: PayloadAction<string[]>) => {
-            state.selectedTilesY = action.payload
-        },
-        changePlayerTurn: (state) => {
+
+            state.playerTurn === 'X' ? state.selectedTilesX.push(tileKey) : state.selectedTilesO.push(tileKey);
             state.playerTurn = state.playerTurn === 'X' ? 'O' : 'X';
+        },
+        setIsGameOver: (state, action: PayloadAction<boolean>) => {
+            state.isGameOver = action.payload
         }
     }
 })
 
 export const {
     setTileVal,
-    setSelectedTilesX,
-    setSelectedTilesY,
-    changePlayerTurn
+    setIsGameOver
 } = appSlice.actions;
 
 export default appSlice.reducer;
