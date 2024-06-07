@@ -18,17 +18,18 @@ export default function Board() {
                         <p className="mt-6 text-lg leading-8 text-gray-600 mb-3">Uh oh! Draw</p>
                     ) : (
                         <p className="mt-6 text-lg leading-8 text-gray-600 mb-3">Player {gameWinner} Wins</p>)}
+                    <Button variant='outlined' className='mt-10' onClick={() => { dispatch(resetGame()) }}>Restart</Button>
                 </div>
             )}
 
-
-            <Button variant='outlined' className='mt-10' onClick={() => { dispatch(resetGame()) }}>Restart</Button>
-
-            <div className={`grid grid-cols-3 bg-primary h-max m-auto ${isGameOver && 'mt-10'} gap-0 `}>
+            <div className={`grid grid-cols-3 bg-primary h-max m-auto ${isGameOver && 'mt-10'} gap-0`}>
                 {board.map((tile) => (
                     <Tile key={tile.tileKey} tile={tile} />
                 ))}
             </div>
+
+         
+
         </div>
     )
 }
