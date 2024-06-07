@@ -43,12 +43,15 @@ const appSlice = createSlice({
             const { tileKey, tileVal } = action.payload;
             const tile = state.board.find(t => t.tileKey === tileKey);
 
-            if (tile) {
+            if (tile && tile.tileVal === '') {
                 tile.tileVal = tileVal;
+                if (state.playerTurn === 'X') {
+                    state.selectedTilesX.push(tileKey);
+                } else {
+                    state.selectedTilesO.push(tileKey);
+                }
+                state.playerTurn = state.playerTurn === 'X' ? 'O' : 'X';
             }
-
-            state.playerTurn === 'X' ? state.selectedTilesX.push(tileKey) : state.selectedTilesO.push(tileKey);
-            state.playerTurn = state.playerTurn === 'X' ? 'O' : 'X';
         },
         setIsGameOver: (state, action: PayloadAction<boolean>) => {
             state.isGameOver = action.payload
