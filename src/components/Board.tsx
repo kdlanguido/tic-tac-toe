@@ -27,9 +27,6 @@ export default function Board() {
                     <Tile key={tile.tileKey} tile={tile} />
                 ))}
             </div>
-
-         
-
         </div>
     )
 }

@@ -1,13 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-type tile = {
+interface Tile {
     tileKey: string;
     tileVal: string;
 }
 
+const winPattern = [
+    ['T1', 'T2', 'T3'],
+    ['T4', 'T5', 'T6'],
+    ['T7', 'T8', 'T9'],
+    ['T1', 'T4', 'T7'],
+    ['T2', 'T5', 'T8'],
+    ['T3', 'T6', 'T9'],
+    ['T1', 'T5', 'T9'],
+    ['T3', 'T5', 'T7'],
+];
+
 export interface AppState {
-    board: tile[];
+    board: Tile[];
     selectedTilesX: string[];
     selectedTilesO: string[];
     playerTurn: string;
@@ -36,7 +47,7 @@ const initialState: AppState = {
     gameWinner: '',
     numOfTurns: 0,
     isGameDraw: false
-}
+};
 
 const appSlice = createSlice({
     name: "app",
@@ -46,49 +57,37 @@ const appSlice = createSlice({
             const { tileKey, tileVal } = action.payload;
             const tile = state.board.find(t => t.tileKey === tileKey);
 
-            if (tile) {
+            if (tile && tile.tileVal === '') {
                 tile.tileVal = tileVal;
 
                 if (state.playerTurn === 'X') {
                     state.selectedTilesX.push(tileKey);
-                    state.playerTurn = 'O'
                 } else {
                     state.selectedTilesO.push(tileKey);
-                    state.playerTurn = 'X'
                 }
+
+                const selectedTiles = state.playerTurn === 'X' ? state.selectedTilesX : state.selectedTilesO;
+                for (const pattern of winPattern) {
+                    if (pattern.every(tile => selectedTiles.includes(tile))) {
+                        state.isGameOver = true;
+                        state.gameWinner = state.playerTurn;
+                        return;
+                    }
+                }
+
+                state.playerTurn = state.playerTurn === 'X' ? 'O' : 'X';
 
                 state.numOfTurns++;
 
-                if (state.numOfTurns == 9) {
+                if (state.numOfTurns === 9) {
                     state.isGameDraw = true;
                     state.isGameOver = true;
                 }
             }
         },
-        setIsGameOver: (state, action: PayloadAction<boolean>) => {
-            state.isGameOver = action.payload
-        },
-        setGameWinner: (state, action: PayloadAction<string>) => {
-            state.gameWinner = action.payload
-        },
-        resetGame: (state) => {
-            state.board = initialState.board;
-            state.selectedTilesX = initialState.selectedTilesX;
-            state.selectedTilesO = initialState.selectedTilesO;
-            state.playerTurn = initialState.playerTurn;
-            state.gameWinner = initialState.gameWinner;
-            state.isGameOver = initialState.isGameOver;
-            state.isGameDraw = initialState.isGameDraw;
-            state.numOfTurns = initialState.numOfTurns;
-        }
+        resetGame: () => initialState
     }
-})
+});
 
-export const {
-    setTileVal,
-    setIsGameOver,
-    setGameWinner,
-    resetGame
-} = appSlice.actions;
-
+export const { setTileVal, resetGame } = appSlice.actions;
 export default appSlice.reducer;
