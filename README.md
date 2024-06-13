@@ -1,4 +1,4 @@
-# Technical Test : Tic-tac-toe
+# Tic-tac-toe
 
 clone git : https://github.com/kdlanguido/tic-tac-toe.git
 
