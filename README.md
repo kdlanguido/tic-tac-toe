@@ -7,10 +7,7 @@ clone git : https://github.com/kdlanguido/tic-tac-toe.git
 
 Run Scripts: 
 
-
-**YARN**
-
-Install all the packages
+Install the packages
 ```bash
 YARN or NPM INSTALL
 ```
