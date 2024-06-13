@@ -1,18 +1,26 @@
-# Tic-tac-toe
+## Tic-tac-toe
 
+
+```bash
 clone git : https://github.com/kdlanguido/tic-tac-toe.git
+```
 
 Run Scripts: 
 
 
 **YARN**
 
-1. YARN
-2. YARN BUILD
-3. YARN PREVIEW
+Install all the packages
+```bash
+YARN or NPM INSTALL
+```
 
-**NPM**
+Build the project
+```bash
+YARN BUILD or NPM RUN BUILD
+```
 
-1. NPM INSTALL
-2. NPM RUN BUILD
-3. NPM RUN PREVIEW
+Run the project
+```bash
+YARN START or NPM RUN PREVIEW
+```
